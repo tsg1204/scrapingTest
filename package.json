@@ -1,0 +1,30 @@
+{
+  "name": "psscraping",
+  "version": "1.0.0",
+  "description": "Pluralsight scraping newest courses",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsg1204/psScraping.git"
+  },
+  "author": "Tatiana Grigorieva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tsg1204/psScraping/issues"
+  },
+  "homepage": "https://github.com/tsg1204/psScraping#readme",
+
+  "dependencies": {
+  "bluebird": "^3.4.6",
+  "body-parser": "^1.15.0",
+  "cheerio": "^0.20.0",
+  "express": "^4.13.4",
+  "mongoose": "^4.4.6",
+  "morgan": "^1.7.0",
+  "request": "^2.69.0"
+  }
+}
