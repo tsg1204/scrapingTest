@@ -114,4 +114,57 @@ $(document).on('click', '#deletenote', function(){
 });
 
 
+var allNews = [{ }];
+
+var numResults  = 0;
+
+
+// Based on the queryTerm we will create a queryURL 
+var queryURLBase = ['https://newsapi.org/v1/articles?source=the-guardian-uk&sortBy=latest&apiKey=27b0fae587184d978804a9fe7727d8b4',
+          'https://newsapi.org/v1/articles?source=bbc-news&sortBy=top&apiKey=27b0fae587184d978804a9fe7727d8b4',
+          'https://newsapi.org/v1/articles?source=the-economist&sortBy=latest&apiKey=27b0fae587184d978804a9fe7727d8b4'];
+
+
+// Array to hold the various article info
+var articleCounter = 0;
+
+// FUNCTIONS
+// ==========================================================
+
+
+// This runQuery function expects two parameters (the number of articles to show and the final URL to download data from)
+function runQuery(numArticles, queryURL){
+
+  // Then run a request to the Gardian(UK) API with the movie specified
+  //request(queryURLBase, function (error, response, body) {
+  $.ajax({url: queryURL, method: "GET"}) 
+    .done(function(gardianNews) {
+    // If the request is successful (i.e. if the response status code is 200)
+    if ( gardianNews.status == 'ok') {
+
+      numResults = numResults + Object.keys(gardianNews.articles).length;
+      console.log(numResults);
+      // Parse the body of the site and recover just the imdbRating
+      // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it). 
+      //console.log("Gardian (UK) News Top headlines: " + "\n"); 
+      //console.log(JSON.parse(body)["articles"]);
+      //var gardianNews = JSON.parse(body);
+      // Loop through and provide the correct number of articles
+  
+      allNews.push.apply(allNews, gardianNews.articles);    
+    }
+  });
+
+}
+
+$( document ).ready(function() {
+  console.log('test');
+  for (var i=0; i<queryURLBase.length; i++) {
+    queryURL = queryURLBase[i];
+
+    // Then we will pass the final queryURL and the number of results to include to the runQuery function
+    runQuery(numResults, queryURL);
+  }
+});
+ 
 

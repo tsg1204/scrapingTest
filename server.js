@@ -1,4 +1,4 @@
-/* Showing Mongoose's "Populated" Method (18.3.8)
+ /* Showing Mongoose's "Populated" Method (18.3.8)
  * INSTRUCTOR ONLY
  * =============================================== */
 
@@ -60,52 +60,25 @@ app.get("/", function(req, res) {
 });
 
 // A GET request to scrape the echojs website
-app.get("/scrape", function(req, res) {
+app.get("/mainstream", function(req, res) {
 
   // First, we grab the body of the html with request
-  //request("https://www.npr.org/sections/politics/", function(error, response, html) {
-  request("http://www.theblaze.com/", function(error, response, html) {    
-  //request("http://www.foxnews.com/politics.html/", function(error, response, html) {
-  //request("http://thehill.com/", function(error, response, html) {
-  //request("http://www.cnn.com/politics/", function(error, response, html) {
+  request("https://www.npr.org/sections/politics/", function(error, response, html) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(html);
-
     // Now, we grab every h4 within an article tag, and do the following:
     //NPR
-    //$("h2.title").each(function(i, element) {
-    //The Hill
-    //$("li.views-row").each(function(i, element) {
-    //Fox News
-    //$("li.article-ct").each(function(i, element) {
-    //CNN not working
-    //$("article.cd div.cd__content").each(function(i, element) {    
-    //The Blaze
-    $("article.feed.article").each(function(i, element) {
+    $("h2.title").each(function(i, element) {
       // Save an empty result object
       var result = {};
-
       // Save the text of the h4-tag as "title"
       //NPR setup
-      //result.title = $(this).text();
-      //result.link = $(this).children("a").attr("href");
-      //The Hill setup
-      //result.title = $(this).find("a").text();
-      //result.link = "http://thehill.com" + $(this).find("a").attr("href");    
-      //The FOX News setup
-      //result.title = $(this).find("h3").text();
-      //result.link = "http://www.foxnews.com" + $(this).find("a").attr("href");
-      //CNN setup not working
-      //result.title = $(this).find("span").text();
-      //result.link = "http://www.cnn.com" + $(this).find("a").attr("href");      
-      //The Blaze setup
-      result.title = $(this).find("h3").text();
-      result.link = "http://www.theblaze.com" + $(this).find("a").attr("href");      
+      result.title = $(this).text();
+      result.link = $(this).children("a").attr("href");
       // Using our Article model, create a new entry
       // This effectively passes the result object to the entry (and the title and link)
       var entry = new Article(result);
       console.log(entry);
-
       // Now, save that entry to the db
       entry.save(function(err, doc) {
         // Log any errors
@@ -119,10 +92,12 @@ app.get("/scrape", function(req, res) {
       });
 
     });
-  });
+  })
+
   // Tell the browser that we finished scraping the text
   res.send("Scrape Complete");
 });
+
 
 // This will get the articles we scraped from the mongoDB
 app.get("/articles", function(req, res) {
@@ -216,7 +191,7 @@ app.post('/deletenote/:id', function(req, res){
       });
 });
 
-// Listen on port 
+// Listen on port
 
 var PORT = process.env.PORT || 3000;
 
